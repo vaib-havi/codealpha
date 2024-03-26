@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS */
+        body {
+            padding-top: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+        }
+        .delete-btn {
+            cursor: pointer;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Expense Tracker</h1>
+    </div>
+
+    <form id="expense-form">
+        <div class="form-group">
+            <input type="text" id="expense-name" class="form-control" placeholder="Expense Name" required>
+        </div>
+        <div class="form-group">
+            <input type="number" id="expense-amount" class="form-control" placeholder="Amount" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Expense</button>
+    </form>
+
+    <ul id="expense-list" class="list-group mt-3"></ul>
+</div>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const expenseForm = document.getElementById('expense-form');
+        const expenseList = document.getElementById('expense-list');
+
+        // Function to add expense
+        function addExpense(name, amount) {
+            const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center';
+            li.innerHTML = `
+                <span>${name}</span>
+                <span>$${amount}</span>
+                <button class="btn btn-sm btn-danger delete-btn">Delete</button>
+            `;
+            expenseList.appendChild(li);
+        }
+
+        // Function to delete expense
+        function deleteExpense(target) {
+            if (target.classList.contains('delete-btn')) {
+                target.parentElement.remove();
+            }
+        }
+
+        // Event: Add an expense
+        expenseForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('expense-name').value;
+            const amount = document.getElementById('expense-amount').value;
+            addExpense(name, amount);
+            // Clear input fields
+            document.getElementById('expense-name').value = '';
+            document.getElementById('expense-amount').value = '';
+        });
+
+        // Event: Delete an expense
+        expenseList.addEventListener('click', function (e) {
+            deleteExpense(e.target);
+        });
+    });
+</script>
+
+</body>
+</html>
